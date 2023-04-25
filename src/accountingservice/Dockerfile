@@ -23,4 +23,5 @@ RUN go build -o /go/bin/accountingservice/ ./
 FROM cr-demo-cn-beijing.cr.volces.com/base-images/alpine:latest
 WORKDIR /usr/src/app/
 COPY --from=builder /go/bin/accountingservice/ ./
-ENTRYPOINT [ "./accountingservice" ]
+RUN ls /usr/src/app
+ENTRYPOINT [ "/usr/src/app/accountingservice" ]
