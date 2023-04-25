@@ -20,7 +20,7 @@ RUN protoc -I ./proto/ ./proto/demo.proto --go_out=./ --go-grpc_out=./
 RUN go build -o /go/bin/accountingservice/ ./
 
 # -----------------------------------------------------------------------------
-# build image
+# build image 1
 FROM alpine:latest
 WORKDIR /usr/src/app/
 COPY --from=builder /go/bin/accountingservice/ ./
