@@ -22,9 +22,6 @@ RUN go build -o /go/bin/accountingservice/ ./
 # -----------------------------------------------------------------------------
 
 FROM alpine
-
 WORKDIR /usr/src/app/
-
 COPY --from=builder /go/bin/accountingservice/ ./
-
 ENTRYPOINT [ "./accountingservice" ]
