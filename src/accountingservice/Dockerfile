@@ -20,8 +20,7 @@ RUN protoc -I ./proto/ ./proto/demo.proto --go_out=./ --go-grpc_out=./
 RUN go build -o /go/bin/accountingservice/ ./
 
 # -----------------------------------------------------------------------------
-# build image 1
-FROM alpine:latest
+FROM cr-demo-cn-beijing.cr.volces.com/base-images/alpine:latest
 WORKDIR /usr/src/app/
 COPY --from=builder /go/bin/accountingservice/ ./
 ENTRYPOINT [ "./accountingservice" ]
