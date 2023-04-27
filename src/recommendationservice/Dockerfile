@@ -8,6 +8,7 @@ FROM python:3.10-slim-bullseye as base
 # Fetch requirements
 #
 FROM base as builder
+COPY debian-bullseye-sources.list /etc/apt/sources.list
 RUN apt-get -qq update \
     && apt-get install -y --no-install-recommends g++ \
     && rm -rf /var/lib/apt/lists/*
@@ -15,8 +16,8 @@ RUN apt-get -qq update \
 WORKDIR /usr/src/app/
 COPY ./src/recommendationservice/requirements.txt ./
 
-RUN pip install --upgrade pip
-RUN pip install --prefix="/reqs" -r requirements.txt
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --prefix="/reqs" -r requirements.txt
 
 #
 # Build gRPC files
@@ -25,7 +26,7 @@ FROM base as grpc-builder
 WORKDIR /usr/src/app/
 COPY ./pb/ ./proto/
 
-RUN python -m pip install grpcio-tools==1.48.2
+RUN python -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple grpcio-tools==1.48.2
 RUN python -m grpc_tools.protoc -I=./proto/ --python_out=./ --grpc_python_out=./ ./proto/demo.proto
 
 #
