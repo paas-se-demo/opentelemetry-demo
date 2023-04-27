@@ -15,7 +15,7 @@
 # limitations under the License.
 
 FROM alpine as builder
-
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 RUN apk update
 RUN apk add git cmake make g++ grpc-dev re2-dev protobuf-dev c-ares-dev
 
@@ -39,7 +39,7 @@ RUN cd /currencyservice \
 FROM alpine
 
 WORKDIR /usr/src/app/
-
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 RUN apk update
 RUN apk add grpc-dev re2-dev protobuf-dev c-ares-dev
 
