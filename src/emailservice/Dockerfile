@@ -7,7 +7,8 @@ FROM ruby:3.1.2-alpine as base
 FROM base as builder
 
 WORKDIR /tmp
-
+RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+RUN gem sources -l
 COPY Gemfile Gemfile.lock .
 
 RUN apk update && apk add make gcc musl-dev && bundle install
