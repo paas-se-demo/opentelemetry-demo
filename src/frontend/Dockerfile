@@ -3,6 +3,7 @@
 
 
 FROM node:18-alpine AS deps
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
@@ -11,19 +12,21 @@ COPY ./src/frontend/package*.json ./
 RUN npm ci
 
 FROM node:18-alpine AS builder
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 RUN apk add --no-cache libc6-compat protobuf-dev protoc
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY ./pb ./pb
 COPY ./src/frontend .
-
+RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
 RUN npm run grpc:generate
 RUN npm run build
 
 FROM node:18-alpine AS runner
 WORKDIR /app
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 RUN apk add --no-cache protobuf-dev protoc
-
+RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
 ENV NODE_ENV=production
 
 RUN addgroup -g 1001 -S nodejs
