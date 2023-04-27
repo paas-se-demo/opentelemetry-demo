@@ -6,7 +6,7 @@ FROM composer:2.4 AS build
 
 WORKDIR /tmp/
 COPY ./src/quoteservice/composer.json .
-
+RUN composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 RUN composer install \
     --ignore-platform-reqs \
     --no-interaction \
@@ -17,7 +17,8 @@ RUN composer install \
 
 FROM php:8.2-cli
 
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+#ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+ADD https://tos-paas.tos-cn-beijing.volces.com/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions \
   && install-php-extensions \
     opcache \
