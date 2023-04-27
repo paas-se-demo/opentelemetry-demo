@@ -25,8 +25,10 @@ ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-$
 ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
 FROM ${BUILDER_IMAGE} as builder
-
+ENV HEX_MIRROR="https://hexpm.upyun.com"
+ENV HEX_CDN="https://hexpm.upyun.com"
 # install build dependencies
+COPY ./debian-bullseye-sources.list /etc/apt/sources.list
 RUN apt-get update -y && apt-get install -y build-essential git wget \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
