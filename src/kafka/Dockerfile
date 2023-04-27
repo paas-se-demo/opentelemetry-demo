@@ -6,7 +6,8 @@ FROM confluentinc/cp-kafka:latest-ubi8
 
 USER root
 ARG version=1.23.0
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v$version/opentelemetry-javaagent.jar /tmp/opentelemetry-javaagent.jar
+#ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v$version/opentelemetry-javaagent.jar /tmp/opentelemetry-javaagent.jar
+ADD https://tos-paas.tos-cn-beijing.volces.com/open-telemetry/opentelemetry-java-instrumentation/releases/v$version/opentelemetry-javaagent.jar /tmp/opentelemetry-javaagent.jar
 RUN chmod go+r /tmp/opentelemetry-javaagent.jar
 
 USER appuser
