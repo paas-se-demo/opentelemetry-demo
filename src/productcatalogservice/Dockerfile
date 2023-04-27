@@ -5,13 +5,13 @@
 FROM golang:1.19.4-alpine AS builder
 
 WORKDIR /usr/src/app/
-
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 RUN apk add build-base protobuf-dev protoc
 
 # Restore dependencies
 COPY ./src/productcatalogservice/ ./
 COPY ./pb/ ./proto/
-
+RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN go mod download
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
