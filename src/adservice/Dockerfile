@@ -24,8 +24,8 @@ ARG version=1.24.0
 WORKDIR /usr/src/app/
 
 COPY --from=builder /usr/src/app/ ./
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v$version/opentelemetry-javaagent.jar /usr/src/app/opentelemetry-javaagent.jar
-#ADD https://tos-paas.tos-cn-beijing.volces.com/open-telemetry/opentelemetry-java-instrumentation/releases/v$version/opentelemetry-javaagent.jar /usr/src/app/opentelemetry-javaagent.jar
+#ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v$version/opentelemetry-javaagent.jar /usr/src/app/opentelemetry-javaagent.jar
+ADD https://tos-paas.tos-cn-beijing.volces.com/open-telemetry/opentelemetry-java-instrumentation/releases/v$version/opentelemetry-javaagent.jar /usr/src/app/opentelemetry-javaagent.jar
 RUN chmod 644 /usr/src/app/opentelemetry-javaagent.jar
 ENV JAVA_TOOL_OPTIONS=-javaagent:/usr/src/app/opentelemetry-javaagent.jar
 
